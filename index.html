@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4: Biodiversity — ScholarNest</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a3a2a;
+    --moss: #2d5a3d;
+    --leaf: #4a8c5c;
+    --sprout: #7bc47f;
+    --mist: #e8f5e9;
+    --earth: #5c3d1e;
+    --sand: #f5f0e8;
+    --ink: #1a1a1a;
+    --fog: #6b7280;
+    --white: #ffffff;
+    --danger: #c0392b;
+    --amber: #d97706;
+    --sky: #1d6fa4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* ─── LOGO ─── */
+  .logo-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .logo-text span { color: var(--sprout); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 60%, #1e4d30 100%);
+    color: var(--white);
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(ellipse at 80% 20%, rgba(123,196,127,0.15) 0%, transparent 60%),
+                      radial-gradient(ellipse at 20% 80%, rgba(74,140,92,0.2) 0%, transparent 50%);
+  }
+  .hero-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-badge {
+    background: rgba(123,196,127,0.2);
+    border: 1px solid rgba(123,196,127,0.4);
+    color: var(--sprout);
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hero-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem;
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sprout);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sprout);
+  }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+  .hero-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .topic-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .topic-pill:hover { background: rgba(123,196,127,0.2); border-color: var(--sprout); color: var(--sprout); }
+
+  /* ─── LEAF DECO ─── */
+  .hero-deco {
+    position: absolute;
+    right: -60px; top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.07;
+  }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column;
+    align-items: center; gap: 0.5rem;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+  .scroll-arrow {
+    width: 24px; height: 24px;
+    border-right: 2px solid rgba(255,255,255,0.3);
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    transform: rotate(45deg);
+    animation: bounce 1.5s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(6px)} }
+
+  /* ─── SECTION SHELL ─── */
+  .section {
+    padding: 6rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-alt {
+    background: var(--white);
+    max-width: none;
+  }
+  .section-alt .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 4rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--leaf);
+    margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 2px;
+    background: var(--leaf);
+    display: block;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--forest);
+    margin-bottom: 1rem;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--fog);
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+
+  /* ─── TYPES OF BIODIVERSITY ─── */
+  .bio-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .bio-card {
+    background: var(--mist);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(74,140,92,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .bio-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,58,42,0.12); }
+  .bio-card::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(74,140,92,0.1);
+  }
+  .bio-num {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(74,140,92,0.2);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .bio-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 0.75rem;
+  }
+  .bio-card p { font-size: 0.9rem; color: var(--fog); line-height: 1.6; }
+  .bio-example {
+    margin-top: 1rem;
+    padding: 0.6rem 0.9rem;
+    background: rgba(74,140,92,0.12);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--leaf);
+    font-weight: 500;
+  }
+
+  /* ─── DIAGRAM: BIODIVERSITY LEVELS ─── */
+  .diagram-wrap {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 2rem 0;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  }
+  .diagram-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  /* ─── VALUE GRID ─── */
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .value-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--mist);
+    border-radius: 12px;
+    border-left: 4px solid var(--leaf);
+  }
+  .value-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    width: 44px;
+    text-align: center;
+  }
+  .value-item h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 0.4rem;
+  }
+  .value-item p { font-size: 0.87rem; color: var(--fog); line-height: 1.6; }
+
+  /* ─── HOTSPOT BANNER ─── */
+  .hotspot-banner {
+    background: linear-gradient(135deg, var(--forest), var(--moss));
+    color: var(--white);
+    border-radius: 20px;
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin: 2rem 0;
+  }
+  .hotspot-banner h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .hotspot-banner p { color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.7; }
+  .hotspot-criteria {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .criterion {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .criterion-num {
+    background: var(--sprout);
+    color: var(--forest);
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .criterion p { font-size: 0.87rem; color: rgba(255,255,255,0.85); }
+
+  .india-hotspots {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hotspot-tag {
+    background: rgba(123,196,127,0.2);
+    border: 1px solid rgba(123,196,127,0.4);
+    color: var(--sprout);
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* ─── RED LIST TABLE ─── */
+  .red-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+    margin: 2rem 0;
+  }
+  .rl-item {
+    padding: 1.2rem 1rem;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-right: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .rl-item:last-child { border-right: none; }
+  .rl-header { background: var(--forest); color: white; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .rl-extinct { background: #1a1a1a; color: white; }
+  .rl-extinct-wild { background: #3d1a1a; color: #ff9999; }
+  .rl-critical { background: #7c1d1d; color: #ffcccc; }
+  .rl-endangered { background: #c0392b; color: white; }
+  .rl-vulnerable { background: #d97706; color: white; }
+  .rl-lower { background: #92400e; color: #fde68a; }
+  .rl-deficient { background: #6b7280; color: white; }
+  .rl-not { background: #e5e7eb; color: #374151; }
+
+  /* ─── SPECIES TABLE ─── */
+  .species-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+  .species-table th {
+    background: var(--forest);
+    color: var(--white);
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .species-table td {
+    padding: 0.85rem 1.2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .species-table tr:nth-child(even) td { background: var(--mist); }
+  .species-table tr:hover td { background: rgba(74,140,92,0.08); }
+  .scientific { font-style: italic; color: var(--leaf); }
+
+  /* ─── THREATS DIAGRAM ─── */
+  .threats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .threat-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: box-shadow 0.2s;
+  }
+  .threat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .threat-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .threat-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--earth); margin-bottom: 0.3rem; }
+  .threat-card p { font-size: 0.82rem; color: var(--fog); line-height: 1.5; }
+
+  /* ─── CONSERVATION ─── */
+  .conservation-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  .con-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .con-header {
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .con-in .con-header { background: var(--forest); color: var(--white); }
+  .con-ex .con-header { background: var(--earth); color: var(--white); }
+  .con-header h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; }
+  .con-header small { font-size: 0.78rem; opacity: 0.75; display: block; margin-top: 0.2rem; }
+  .con-body { padding: 1.5rem 2rem; background: var(--mist); }
+  .con-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .con-list li {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.9rem; color: var(--ink); padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .con-list li::before {
+    content: '→';
+    color: var(--leaf);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ─── BIOSPHERE RESERVE DIAGRAM ─── */
+  .biosphere-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 2rem;
+  }
+  .zone-rings {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    flex-shrink: 0;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+  .ring-transition { width: 240px; height: 240px; top: 0; left: 0; background: #c8e6c9; color: #2e7d32; }
+  .ring-buffer { width: 170px; height: 170px; top: 35px; left: 35px; background: #66bb6a; color: white; }
+  .ring-core { width: 100px; height: 100px; top: 70px; left: 70px; background: var(--forest); color: white; font-size: 0.8rem; }
+  .zone-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .zone-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+  .zone-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .zone-item h5 { font-size: 0.9rem; font-weight: 600; color: var(--forest); margin-bottom: 0.2rem; }
+  .zone-item p { font-size: 0.8rem; color: var(--fog); line-height: 1.5; }
+
+  /* ─── PROTECTED AREA TABLE ─── */
+  .pa-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .pa-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .pa-top { padding: 1.2rem; }
+  .pa-national .pa-top { background: var(--forest); color: white; }
+  .pa-wildlife .pa-top { background: var(--moss); color: white; }
+  .pa-biosphere .pa-top { background: var(--leaf); color: white; }
+  .pa-top h4 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 600; }
+  .pa-body { padding: 1.2rem; background: var(--mist); font-size: 0.84rem; color: var(--fog); line-height: 1.6; }
+  .pa-stat { margin-top: 0.75rem; font-size: 0.8rem; font-weight: 600; color: var(--forest); }
+
+  /* ─── MEGADIVERSITY ─── */
+  .mega-stat-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .mega-stat {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .mega-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--leaf);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .mega-label { font-size: 0.8rem; color: var(--fog); font-weight: 500; }
+
+  /* ─── BIOGEOGRAPHY REGIONS ─── */
+  .regions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .region-card {
+    padding: 1.2rem;
+    border-radius: 10px;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.85rem;
+  }
+  .region-card strong {
+    display: block;
+    color: var(--forest);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+  }
+  .region-card span { color: var(--fog); line-height: 1.5; display: block; }
+
+  /* ─── GLOBAL LEVEL ─── */
+  .veg-belts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .veg-belt {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
+  }
+  .veg-belt .belt-name { font-weight: 600; min-width: 200px; }
+  .veg-belt .belt-desc { color: var(--fog); }
+  .belt-arctic { background: #e3f2fd; border-left: 4px solid #90caf9; }
+  .belt-ntemperate { background: #f1f8e9; border-left: 4px solid #aed581; }
+  .belt-stemperate { background: #fff8e1; border-left: 4px solid #ffcc02; }
+  .belt-tropical { background: #fce4ec; border-left: 4px solid #f48fb1; }
+
+  /* ─── CASE STUDY BOXES ─── */
+  .case-study {
+    background: #fff8e7;
+    border: 1px solid #f0c040;
+    border-radius: 14px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .case-study-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+  }
+  .case-study h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  .case-study p { font-size: 0.88rem; color: #4b3a0e; line-height: 1.7; }
+
+  /* ─── SUMMARY BOX ─── */
+  .summary-box {
+    background: linear-gradient(135deg, var(--forest), var(--moss));
+    color: white;
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 2rem 0;
+  }
+  .summary-box h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  .summary-points { display: flex; flex-direction: column; gap: 0.75rem; }
+  .summary-point {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.07);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.9);
+  }
+  .summary-point .sp-dot {
+    background: var(--sprout);
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.55rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--forest);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+  }
+  footer strong { color: var(--sprout); }
+
+  /* ─── STICKY NAV ─── */
+  .sticky-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(26,58,42,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    padding: 0.75rem 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    transform: translateY(-100%);
+    transition: transform 0.3s;
+    border-bottom: 1px solid rgba(123,196,127,0.2);
+  }
+  .sticky-nav.visible { transform: translateY(0); }
+  .sticky-nav a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .sticky-nav a:hover { color: var(--sprout); }
+  .sticky-logo { margin-right: auto; }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: rgba(0,0,0,0.06); margin: 0; }
+
+  /* ─── ENDEMIC BOX ─── */
+  .endemic-box {
+    background: var(--mist);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(74,140,92,0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+    align-items: start;
+  }
+  .endemic-stat {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--leaf);
+  }
+  .endemic-label { font-size: 0.85rem; color: var(--fog); margin-top: 0.25rem; }
+  .endemic-desc { font-size: 0.9rem; color: var(--ink); line-height: 1.7; }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    .hero-nav, .section, .section-alt .section-inner { padding: 1.5rem; }
+    .bio-types, .value-grid, .conservation-split, .pa-cards, .mega-stat-bar, .regions-grid, .threats-grid { grid-template-columns: 1fr; }
+    .hotspot-banner, .endemic-box { grid-template-columns: 1fr; }
+    .hero-body { padding: 3rem 1.5rem; }
+    .sticky-nav { padding: 0.75rem 1.5rem; overflow-x: auto; }
+    .red-list { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav" id="stickyNav">
+  <div class="sticky-logo"><span class="logo-text">Scholar<span>Nest</span></span></div>
+  <a href="#intro">Intro</a>
+  <a href="#types">Types</a>
+  <a href="#value">Value</a>
+  <a href="#hotspots">Hotspots</a>
+  <a href="#endangered">Endangered</a>
+  <a href="#threats">Threats</a>
+  <a href="#conservation">Conservation</a>
+  <a href="#megadiversity">Megadiversity</a>
+  <a href="#global">Global Level</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <nav class="hero-nav">
+    <span class="logo-text">Scholar<span>Nest</span></span>
+    <span class="nav-badge">Chapter 4 · Environmental Studies</span>
+  </nav>
+  <div class="hero-body">
+    <div class="hero-eyebrow">Complete Chapter Notes</div>
+    <h1 class="hero-title">Bio<em>diversity</em></h1>
+    <p class="hero-sub">The variety of life on Earth — from genes to ecosystems — and why preserving it is one of the most urgent challenges of our time.</p>
+    <div class="hero-topics">
+      <a href="#types" class="topic-pill">Types of Biodiversity</a>
+      <a href="#value" class="topic-pill">Value of Biodiversity</a>
+      <a href="#hotspots" class="topic-pill">Hotspots</a>
+      <a href="#endangered" class="topic-pill">Endangered Species</a>
+      <a href="#threats" class="topic-pill">Threats</a>
+      <a href="#conservation" class="topic-pill">Conservation</a>
+      <a href="#megadiversity" class="topic-pill">India: Megadiversity</a>
+      <a href="#biogeography" class="topic-pill">Biogeography</a>
+      <a href="#global" class="topic-pill">Global Level</a>
+    </div>
+  </div>
+  <!-- decorative SVG leaf -->
+  <svg class="hero-deco" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M250 10 C400 10 490 100 490 250 C490 400 400 490 250 490 C100 490 10 400 10 250 C10 100 100 10 250 10Z" fill="white"/>
+    <path d="M250 50 C380 50 450 130 450 250 C450 370 370 450 250 450 C130 450 50 370 50 250 C50 130 130 50 250 50Z" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M250 10 L250 490 M10 250 L490 250" stroke="white" stroke-width="1.5"/>
+  </svg>
+  <div class="scroll-hint">scroll<div class="scroll-arrow"></div></div>
+</header>
+
+<!-- INTRO -->
+<section class="section" id="intro">
+  <div class="section-label">Introduction</div>
+  <h2 class="section-title">What is Biodiversity?</h2>
+  <p class="section-subtitle">The word 'biodiversity' is made of two words — <em>bio</em> (life) and <em>diversity</em> (variety). It refers to the existence of millions of plants, animals, and micro-organisms in the biosphere.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">🌱 India's Contribution to World Biodiversity</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:center;">
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;">
+        <div style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--leaf);">50,000</div>
+        <div style="font-size:0.85rem;color:var(--fog);margin-top:0.3rem;">Varieties of Rice cultivated in India</div>
+      </div>
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;">
+        <div style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--leaf);">1,000</div>
+        <div style="font-size:0.85rem;color:var(--fog);margin-top:0.3rem;">Varieties of Mango</div>
+      </div>
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;">
+        <div style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--leaf);">5–30M</div>
+        <div style="font-size:0.85rem;color:var(--fog);margin-top:0.3rem;">Estimated species on Earth</div>
+      </div>
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;">
+        <div style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--leaf);">42</div>
+        <div style="font-size:0.85rem;color:var(--fog);margin-top:0.3rem;">Breeds of Sheep in India</div>
+      </div>
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;">
+        <div style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--leaf);">500</div>
+        <div style="font-size:0.85rem;color:var(--fog);margin-top:0.3rem;">Varieties of Pepper</div>
+      </div>
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;">
+        <div style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--leaf);">5,000</div>
+        <div style="font-size:0.85rem;color:var(--fog);margin-top:0.3rem;">Varieties of Indian Millets</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TYPES -->
+<div class="section-alt" id="types">
+  <div class="section-inner">
+    <div class="section-label">Section 4.1</div>
+    <h2 class="section-title">Types of Biodiversity</h2>
+    <p class="section-subtitle">Biodiversity can be described at three hierarchical levels, each measuring a different aspect of life's variety.</p>
+
+    <div class="bio-types">
+      <div class="bio-card">
+        <div class="bio-num">01</div>
+        <h3>Genetic Diversity</h3>
+        <p>Each species stores an immense amount of genetic information. Variations among genes of the same species are called <strong>genetic diversity</strong>.</p>
+        <div class="bio-example">🌾 Example: India was home to 400,000 rice varieties during the Vedic period. Even today, 200,000 exist!</div>
+      </div>
+      <div class="bio-card">
+        <div class="bio-num">02</div>
+        <h3>Species Diversity</h3>
+        <p>Diversity arising due to variations among species present in specific ecosystems. Each species plays a unique role.</p>
+        <div class="bio-example">🦁 Example: Horses & donkeys are distinct species; lions & tigers are distinct species.</div>
+      </div>
+      <div class="bio-card">
+        <div class="bio-num">03</div>
+        <h3>Ecosystem Diversity</h3>
+        <p>Refers to the diversity of habitats including the different life forms within them, and the variety of ecosystems within a biogeographical or political boundary.</p>
+        <div class="bio-example">🌊 Example: Forests, grasslands, wetlands, coral reefs — each is a distinct ecosystem.</div>
+      </div>
+    </div>
+
+    <!-- Pyramid Diagram -->
+    <div class="diagram-wrap">
+      <div class="diagram-title">Hierarchy of Biodiversity</div>
+      <div style="display:flex;justify-content:center;">
+        <svg width="500" height="280" viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,sans-serif;">
+          <!-- Pyramid Levels -->
+          <polygon points="250,20 350,100 150,100" fill="#1a3a2a"/>
+          <polygon points="150,110 350,110 390,190 110,190" fill="#2d5a3d"/>
+          <polygon points="110,200 390,200 450,270 50,270" fill="#4a8c5c"/>
+          <!-- Labels -->
+          <text x="250" y="70" text-anchor="middle" fill="white" font-size="13" font-weight="600">Genetic</text>
+          <text x="250" y="155" text-anchor="middle" fill="white" font-size="13" font-weight="600">Species</text>
+          <text x="250" y="240" text-anchor="middle" fill="white" font-size="13" font-weight="600">Ecosystem</text>
+          <!-- Side labels -->
+          <text x="370" y="70" fill="#4a8c5c" font-size="11">Narrowest</text>
+          <text x="410" y="240" fill="#4a8c5c" font-size="11">Broadest</text>
+          <line x1="355" y1="65" x2="340" y2="60" stroke="#4a8c5c" stroke-width="1.5"/>
+          <line x1="408" y1="236" x2="450" y2="265" stroke="#4a8c5c" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUE -->
+<section class="section" id="value">
+  <div class="section-label">Section 4.2</div>
+  <h2 class="section-title">Value of Biodiversity</h2>
+  <p class="section-subtitle">Biodiversity is essential to human survival in multiple dimensions — from basic survival to aesthetic pleasure.</p>
+
+  <div class="value-grid">
+    <div class="value-item">
+      <div class="value-icon">🍽️</div>
+      <div>
+        <h4>Survival Value</h4>
+        <p>Human beings would perish without biodiversity. Most communities, like those in Ghana, depend entirely on local biodiversity for food, medicine, and livelihood from animals such as antelopes, snails, and rabbits.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">🏥</div>
+      <div>
+        <h4>Health & Healing</h4>
+        <p>A large percentage of the world's population uses medicines derived from plants. Traditional knowledge is increasingly important. India should include medicinal plants under the Indian Medicine Central Council Act, 1970.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">🌾</div>
+      <div>
+        <h4>Food Security</h4>
+        <p>All food requirements are met by the biological world. Cereals, pulses, vegetables, fruits, milk, honey — all are outcomes of biodiversity. India is home to 167 important plant species including spices like asafoetida, ginger, turmeric, and mint.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">🔗</div>
+      <div>
+        <h4>Ecological Services</h4>
+        <p>Species evolve to fill niches. A single tree provides habitat, conserves soil and water, and keeps air clean. The value of ecosystem services is estimated between <strong>$16–54 trillion per year</strong> (Nature, 1997).</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">💰</div>
+      <div>
+        <h4>Productive Value</h4>
+        <p>Products used by humans: cinchona plant for medicine, wood as fuel, charcoal, dyes. Every macaw in a Costa Rica bird reserve earns an average of USD 15,000/year. Millions visit the Himalayas for the Valley of Flowers.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">⚖️</div>
+      <div>
+        <h4>Ethical Value</h4>
+        <p>Each species has the right to exist. Ethical use has deep roots in human culture, religion, and society. Biodiversity can be retained only if humans put in sincere efforts — it is extremely important to realize how biodiversity can be utilized.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">🎨</div>
+      <div>
+        <h4>Aesthetic Pleasure</h4>
+        <p>Each species and ecosystem adds richness and beauty to life on Earth. Watching a sun set over an ocean, the sight of a leaping deer, the sound of a singing bird — all add to Earth's aesthetic wealth. Ecotourism, bird watching, wildlife photography, gardening all depend on biodiversity.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">🌍</div>
+      <div>
+        <h4>Value for Developing Nations</h4>
+        <p>Recognizing sovereign rights over genetic resources benefits nations like India. India holds most of the world's genetic material and an immensely rich indigenous knowledge base. The first IPR benefit-sharing case in India: the Kani tribe and the anti-fatigue drug <em>Jeevani</em>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-study" style="margin-top:2rem;">
+    <div class="case-study-label">📚 Slow Loss of Biodiversity</div>
+    <h4>Monocultures and the Loss of Varieties</h4>
+    <p>Just 14 mammal and bird species account for 90% of our food supply from animals. Just four species — wheat, maize, rice, and potato — provide half our energy from plants. This focus on monocultures may result in extinction of species, varieties, and breeds.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOTSPOTS -->
+<div class="section-alt" id="hotspots">
+  <div class="section-inner">
+    <div class="section-label">Section 4.3</div>
+    <h2 class="section-title">Hotspots of Biodiversity</h2>
+    <p class="section-subtitle">Biodiversity is not evenly distributed. Areas that are biologically rich but under great danger are called <em>biodiversity hotspots</em>.</p>
+
+    <div class="hotspot-banner">
+      <div>
+        <h3>What are Biodiversity Hotspots?</h3>
+        <p>Hotspots are the richest and most threatened reservoirs of plant and animal life on Earth. They are areas of exceptionally rich concentration of species with high endemism and are extremely vulnerable to anthropogenic disturbances.</p>
+        <p style="margin-top:1rem;"><strong style="color:var(--sprout);">25 hotspots</strong> have been identified worldwide, covering about <strong style="color:var(--sprout);">1.4%</strong> of Earth's land area.</p>
+        <div class="india-hotspots">
+          <div class="hotspot-tag">🇮🇳 Western Ghats</div>
+          <div class="hotspot-tag">🇮🇳 North-East Himalaya</div>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:rgba(255,255,255,0.6);">The concept was developed by Norman Meyers in 1988 to designate priority areas for <em>in situ</em> conservation.</p>
+      </div>
+      <div class="hotspot-criteria">
+        <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">3 Criteria to Identify a Hotspot</div>
+        <div class="criterion">
+          <div class="criterion-num">i</div>
+          <p>The <strong>number of species</strong> present</p>
+        </div>
+        <div class="criterion">
+          <div class="criterion-num">ii</div>
+          <p>The number of species that exist <strong>exclusively</strong> in the given ecosystem (endemic species)</p>
+        </div>
+        <div class="criterion">
+          <div class="criterion-num">iii</div>
+          <p>The <strong>degree of threat</strong> they face from human activities</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-title">Location of India's Biodiversity Hotspots</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+        <svg width="240" height="300" viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Simplified India outline -->
+          <path d="M80,10 L160,10 L190,40 L200,90 L180,130 L190,160 L170,190 L150,230 L130,280 L120,290 L110,270 L90,220 L70,190 L60,170 L50,140 L40,100 L50,60 Z" fill="#e8f5e9" stroke="#4a8c5c" stroke-width="2"/>
+          <!-- NE India blob -->
+          <ellipse cx="175" cy="50" rx="30" ry="20" fill="rgba(26,58,42,0.7)" stroke="#1a3a2a" stroke-width="1"/>
+          <text x="175" y="53" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">North-East</text>
+          <text x="175" y="62" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">Himalaya</text>
+          <!-- Western Ghats blob -->
+          <ellipse cx="78" cy="185" rx="18" ry="40" fill="rgba(26,58,42,0.7)" stroke="#1a3a2a" stroke-width="1"/>
+          <text x="78" y="182" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">Western</text>
+          <text x="78" y="192" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">Ghats</text>
+          <!-- arrows -->
+          <line x1="110" y1="55" x2="148" y2="52" stroke="#4a8c5c" stroke-width="1.5" stroke-dasharray="4"/>
+          <line x1="97" y1="185" x2="118" y2="190" stroke="#4a8c5c" stroke-width="1.5" stroke-dasharray="4"/>
+        </svg>
+        <div>
+          <p style="font-size:0.9rem;color:var(--fog);line-height:1.7;">Most hotspots are located in <strong style="color:var(--forest);">tropical areas</strong> in developing countries. About 85% of the rich ecosystems for food, fuel wood, and other forest products depend on them.</p>
+          <p style="margin-top:1rem;font-size:0.9rem;color:var(--fog);line-height:1.7;">The Western Ghats and North-East Himalaya are rich in endemic species of <strong>reptiles, amphibians, insects, and mammals</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENDANGERED -->
+<section class="section" id="endangered">
+  <div class="section-label">Section 4.4</div>
+  <h2 class="section-title">Endangered & Endemic Species</h2>
+  <p class="section-subtitle">The population of many species is declining at alarming rates. The IUCN (World Conservation Union) has established 8 Red List categories.</p>
+
+  <!-- Red List -->
+  <div class="red-list">
+    <div class="rl-item rl-header">Category</div>
+    <div class="rl-item rl-header">Symbol</div>
+    <div class="rl-item rl-header">Meaning</div>
+    <div class="rl-item rl-header">Status</div>
+    <div class="rl-item rl-extinct">Extinct (EX)</div>
+    <div class="rl-item rl-extinct">☠</div>
+    <div class="rl-item rl-extinct" style="font-size:0.78rem;font-weight:400">No individuals remain</div>
+    <div class="rl-item rl-extinct">Most severe</div>
+    <div class="rl-item rl-extinct-wild">Extinct in Wild (EW)</div>
+    <div class="rl-item rl-extinct-wild">🏕</div>
+    <div class="rl-item rl-extinct-wild" style="font-size:0.78rem;font-weight:400">Survives only in captivity</div>
+    <div class="rl-item rl-extinct-wild">Very severe</div>
+    <div class="rl-item rl-critical">Critically Endangered (CR)</div>
+    <div class="rl-item rl-critical">⚠️</div>
+    <div class="rl-item rl-critical" style="font-size:0.78rem;font-weight:400">Extremely high risk</div>
+    <div class="rl-item rl-critical">Critical</div>
+    <div class="rl-item rl-endangered">Endangered (EN)</div>
+    <div class="rl-item rl-endangered">🔴</div>
+    <div class="rl-item rl-endangered" style="font-size:0.78rem;font-weight:400">Very high risk of extinction</div>
+    <div class="rl-item rl-endangered">High risk</div>
+    <div class="rl-item rl-vulnerable">Vulnerable (VU)</div>
+    <div class="rl-item rl-vulnerable">🟠</div>
+    <div class="rl-item rl-vulnerable" style="font-size:0.78rem;font-weight:400">High risk of extinction</div>
+    <div class="rl-item rl-vulnerable">Threatened</div>
+    <div class="rl-item rl-lower">Lower Risk (LR)</div>
+    <div class="rl-item rl-lower">🟡</div>
+    <div class="rl-item rl-lower" style="font-size:0.78rem;font-weight:400">Low risk; rare species here</div>
+    <div class="rl-item rl-lower">Lower risk</div>
+    <div class="rl-item rl-deficient">Data Deficient (DD)</div>
+    <div class="rl-item rl-deficient">🔵</div>
+    <div class="rl-item rl-deficient" style="font-size:0.78rem;font-weight:400">Insufficient data</div>
+    <div class="rl-item rl-deficient">Unknown</div>
+    <div class="rl-item rl-not">Not Evaluated (NE)</div>
+    <div class="rl-item rl-not">⬜</div>
+    <div class="rl-item rl-not" style="font-size:0.78rem;font-weight:400">Not yet assessed</div>
+    <div class="rl-item rl-not">Least concern</div>
+  </div>
+
+  <p style="font-size:0.85rem;color:var(--fog);margin-bottom:2rem;">Red Data Book (2 volumes) lists about <strong>25,000 endangered species</strong> worldwide.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+    <div>
+      <h3 style="font-family:'Fraunces',serif;font-size:1.2rem;color:var(--forest);margin-bottom:1rem;">Endangered Animal Species of India</h3>
+      <table class="species-table">
+        <thead><tr><th>Scientific Name</th><th>Common Name</th><th>Region</th></tr></thead>
+        <tbody>
+          <tr><td class="scientific">Varanus griseus</td><td>Agra Monitor Lizard</td><td>Whole India</td></tr>
+          <tr><td class="scientific">Felis libyca</td><td>Desert Cat</td><td>Thar Desert</td></tr>
+          <tr><td class="scientific">Cervus elaphus</td><td>Kashmir Stag</td><td>Kashmir</td></tr>
+          <tr><td class="scientific">Rhinoceros unicornis</td><td>Great Indian Rhino</td><td>Assam & Bengal</td></tr>
+          <tr><td class="scientific">Vulpes vulpes</td><td>Desert Fox</td><td>Thar Desert</td></tr>
+          <tr><td class="scientific">Platanista gangetica</td><td>Gangetic Dolphin</td><td>Ganges</td></tr>
+          <tr><td class="scientific">Elephas maximus</td><td>Asiatic Elephant</td><td>Whole India</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="font-family:'Fraunces',serif;font-size:1.2rem;color:var(--forest);margin-bottom:1rem;">Endangered Plant Species of India</h3>
+      <table class="species-table">
+        <thead><tr><th>Scientific Name</th><th>Common Name</th><th>Region</th></tr></thead>
+        <tbody>
+          <tr><td class="scientific">Santalum album</td><td>Sandal</td><td>Western Ghats</td></tr>
+          <tr><td class="scientific">Commiphora wightii</td><td>Guggal</td><td>Thar Desert</td></tr>
+          <tr><td class="scientific">Tecomella undulata</td><td>Rohida</td><td>Thar Desert</td></tr>
+          <tr><td class="scientific">Nepenthes khasiana</td><td>Pitcher Plant</td><td>Khasi Hills</td></tr>
+          <tr><td class="scientific">Adansonia digitata</td><td>Kalpvriksha</td><td>Western Ghats</td></tr>
+          <tr><td class="scientific">Rauvolfia serpentina</td><td>Sarpagandha</td><td>Western Ghats</td></tr>
+          <tr><td class="scientific">Cycas beddomei</td><td>Cycas</td><td>Western Ghats</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Endemic Species -->
+  <div class="endemic-box">
+    <div>
+      <div class="endemic-stat">4,900+</div>
+      <div class="endemic-label">Flowering plant species endemic to India</div>
+      <div style="margin-top:1rem;font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--leaf);">62%</div>
+      <div class="endemic-label">Known amphibian species endemic to India (mostly in Western Ghats)</div>
+    </div>
+    <div>
+      <h4 style="font-family:'Fraunces',serif;font-size:1.1rem;color:var(--forest);margin-bottom:0.75rem;">What are Endemic Species?</h4>
+      <div class="endemic-desc">Plants or animals <strong>restricted to a limited geographic area</strong> are called <em>endemic species</em>. They are confined to a particular region due to geographical barriers like sea, valley, or mountains. They adjust poorly to the environment in wide areas and possess low ecological amplitude.</div>
+      <div style="margin-top:1rem;font-size:0.85rem;color:var(--fog);">Examples: <em>Elettaria repens, Ficus religiosa, Butea monosperma, Ficus bengalensis</em></div>
+      <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(192,57,43,0.08);border-radius:8px;font-size:0.82rem;color:#7c1d1d;">⚠️ Restricted habitat makes endemic species extremely vulnerable to anthropogenic disturbances and introduction of new species.</div>
+    </div>
+  </div>
+
+  <div class="case-study">
+    <div class="case-study-label">📌 EDGE Species</div>
+    <h4>Evolutionarily Distinct and Globally Endangered</h4>
+    <p>EDGE species are unique in looks, lifestyle, and behaviour and are on the verge of extinction. Once extinct, there will be no species like them — they have very few close relatives. Examples: elephants, pandas (well known), Yangtze River dolphin (world's rarest cetacean), bumblebee bat (smallest mammal on Earth), and echidnas. Alarmingly, little is being done for conservation of about two-thirds of the top 100 EDGE mammal species.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THREATS -->
+<div class="section-alt" id="threats">
+  <div class="section-inner">
+    <div class="section-label">Section 4.5</div>
+    <h2 class="section-title">Threats to Biodiversity</h2>
+    <p class="section-subtitle">Human interference has placed biodiversity under constant threat. Continuous and large-scale loss is causing severe imbalances in the biosphere.</p>
+
+    <!-- Threats Diagram -->
+    <div class="diagram-wrap">
+      <div class="diagram-title">Major Anthropogenic Threats to Biodiversity</div>
+      <div style="display:flex;justify-content:center;align-items:center;">
+        <svg width="560" height="380" viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,sans-serif;">
+          <!-- Central node -->
+          <ellipse cx="280" cy="190" rx="65" ry="55" fill="#1a3a2a"/>
+          <text x="280" y="185" text-anchor="middle" fill="white" font-size="12" font-weight="700">Threats to</text>
+          <text x="280" y="200" text-anchor="middle" fill="white" font-size="12" font-weight="700">Biodiversity</text>
+          <!-- Threat nodes and lines -->
+          <!-- Deforestation -->
+          <line x1="280" y1="135" x2="280" y2="55" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="225" y="20" width="110" height="36" rx="8" fill="#2d5a3d"/>
+          <text x="280" y="42" text-anchor="middle" fill="white" font-size="10.5" font-weight="600">Deforestation</text>
+          <!-- Poaching -->
+          <line x1="240" y1="148" x2="155" y2="90" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="75" y="58" width="100" height="36" rx="8" fill="#2d5a3d"/>
+          <text x="125" y="79" text-anchor="middle" fill="white" font-size="10" font-weight="600">Poaching</text>
+          <!-- Overgrazing -->
+          <line x1="218" y1="167" x2="120" y2="150" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="20" y="135" width="105" height="36" rx="8" fill="#2d5a3d"/>
+          <text x="72" y="157" text-anchor="middle" fill="white" font-size="10" font-weight="600">Overgrazing</text>
+          <!-- Pollution -->
+          <line x1="215" y1="195" x2="120" y2="210" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="20" y="197" width="105" height="36" rx="8" fill="#c0392b"/>
+          <text x="72" y="218" text-anchor="middle" fill="white" font-size="10" font-weight="600">Env. Pollution</text>
+          <!-- Urbanization -->
+          <line x1="320" y1="148" x2="405" y2="90" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="385" y="58" width="105" height="36" rx="8" fill="#2d5a3d"/>
+          <text x="437" y="79" text-anchor="middle" fill="white" font-size="10" font-weight="600">Urbanization</text>
+          <!-- Agri expansion -->
+          <line x1="340" y1="165" x2="430" y2="148" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="432" y="132" width="118" height="36" rx="8" fill="#2d5a3d"/>
+          <text x="491" y="153" text-anchor="middle" fill="white" font-size="10" font-weight="600">Agri. Expansion</text>
+          <!-- Mining -->
+          <line x1="340" y1="200" x2="430" y2="215" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="432" y="200" width="100" height="36" rx="8" fill="#5c3d1e"/>
+          <text x="482" y="221" text-anchor="middle" fill="white" font-size="10" font-weight="600">Mining</text>
+          <!-- Climate Change -->
+          <line x1="280" y1="245" x2="280" y2="315" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="210" y="316" width="140" height="36" rx="8" fill="#1d6fa4"/>
+          <text x="280" y="337" text-anchor="middle" fill="white" font-size="10" font-weight="600">Climate Change</text>
+          <!-- Invasive species -->
+          <line x1="218" y1="225" x2="145" y2="295" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="50" y="283" width="120" height="36" rx="8" fill="#7c1d1d"/>
+          <text x="110" y="304" text-anchor="middle" fill="white" font-size="10" font-weight="600">Invasive Species</text>
+          <!-- Waste disposal -->
+          <line x1="340" y1="225" x2="410" y2="295" stroke="#4a8c5c" stroke-width="2"/>
+          <rect x="400" y="283" width="110" height="36" rx="8" fill="#6b7280"/>
+          <text x="455" y="304" text-anchor="middle" fill="white" font-size="10" font-weight="600">Waste Disposal</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="threats-grid">
+      <div class="threat-card">
+        <div class="threat-icon">🏗️</div>
+        <div>
+          <h4>Habitat Destruction</h4>
+          <p>Cutting trees, filling wetlands, burning forests, building dams and industrial plants destroy the natural habitat. Large dams submerge tracts of forest and introduce human settlements into forest areas.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🔫</div>
+        <div>
+          <h4>Poaching & Over-Exploitation</h4>
+          <p>Tigers, elephants killed for skin, tusks, claws. Snakes and birds caught as collectors' items. The pharmaceutical industry exploits many plants. Ranthambore poachers use local Mogya tribes as trackers.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🏭</div>
+        <div>
+          <h4>Environmental Pollution</h4>
+          <p>Soil, water, and air pollution disturbs ecosystem functioning. Overuse of pesticides declines fish-eating birds and falcons. Lead poisoning kills ducks, swans, cranes. Industrial effluents destroy coral reefs.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🌡️</div>
+        <div>
+          <h4>Global Climate Change</h4>
+          <p>Climate change will adversely affect biodiversity. Species that cannot adapt to a warmer climate will become extinct. Islands and coastal systems face particularly high biodiversity losses due to rising sea levels.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🌿</div>
+        <div>
+          <h4>Invasion by Introduced Species</h4>
+          <p>Foreign (alien or exotic) species pose a great threat to endemic species. <em>Lantana camara</em> from Brazil is spreading rapidly in Indian forests. Water hyacinth is clogging rivers and lakes.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">⚖️</div>
+        <div>
+          <h4>Weak Legal Systems</h4>
+          <p>Protection of wildlife in India is disreputably negligent. National parks lack rangers. Villagers are allowed to live within sanctuaries, leading to conflicts. The Wildlife Protection Act, 1972 curtails community rights.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">⛏️</div>
+        <div>
+          <h4>Mining Activities</h4>
+          <p>Mining involves digging up tons of earth, leading to deforestation and soil erosion. It also leads to water pollution with dangerous chemicals. Mining in Venezuelan Amazon severely threatens rich biodiversity.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🌊</div>
+        <div>
+          <h4>Exploitation of Water Resources</h4>
+          <p>Over-exploitation of surface water creates scarcity. In the absence of rainfall and water pollution, aquatic diversity and survival of aquatic species is threatened.</p>
+        </div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🔥</div>
+        <div>
+          <h4>Forest Fires</h4>
+          <p>Common causes: lightning, human carelessness, volcanic eruption. Forest fires due to natural or man-made reasons seriously harm biodiversity. In 2003, fires burned 300,000 ha in Portugal, threatening cork and oak forests.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSERVATION -->
+<section class="section" id="conservation">
+  <div class="section-label">Section 4.6</div>
+  <h2 class="section-title">Conservation of Biodiversity</h2>
+  <p class="section-subtitle">We are losing about 1,500 species every two months. There are two major approaches — <em>in situ</em> (on site) and <em>ex situ</em> (off site) conservation.</p>
+
+  <div class="conservation-split">
+    <div class="con-card con-in">
+      <div class="con-header">
+        <div>
+          <h3>In Situ Conservation</h3>
+          <small>Conservation in natural habitat</small>
+        </div>
+      </div>
+      <div class="con-body">
+        <p style="font-size:0.88rem;color:var(--fog);margin-bottom:1rem;">Plants and animals are conserved in their <strong>natural habitats</strong>. Applies only to wild flora and fauna, not domesticated species.</p>
+        <ul class="con-list">
+          <li>National Parks (90 in India)</li>
+          <li>Wildlife Sanctuaries (492 in India)</li>
+          <li>Biosphere Reserves (13 in India)</li>
+        </ul>
+        <div style="margin-top:1.2rem;font-size:0.82rem;color:var(--fog);">
+          <strong style="color:var(--forest);">Advantages:</strong> Long-term protection · Natural ecosystems in large areas allow evolution · Cheaper means of protection
+        </div>
+      </div>
+    </div>
+    <div class="con-card con-ex">
+      <div class="con-header">
+        <div>
+          <h3>Ex Situ Conservation</h3>
+          <small>Conservation outside natural habitat</small>
+        </div>
+      </div>
+      <div class="con-body">
+        <p style="font-size:0.88rem;color:var(--fog);margin-bottom:1rem;">Species are conserved <strong>outside their natural habitats</strong> through scientific management.</p>
+        <ul class="con-list">
+          <li>Gene Banks (Germplasm Banks)</li>
+          <li>Botanical Gardens</li>
+          <li>Zoos & Aquaria</li>
+          <li>Tissue Culture Technique</li>
+          <li>DNA Technology</li>
+        </ul>
+        <div style="margin-top:1.2rem;font-size:0.82rem;color:var(--fog);">
+          <strong style="color:var(--earth);">Advantages:</strong> Long-term species conservation · Controlled supervision · Quality of offspring improved by genetic techniques
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biosphere Reserve Diagram -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">🔵 Zonation in a Biosphere Reserve</div>
+    <div class="biosphere-visual">
+      <div class="zone-rings">
+        <div class="ring ring-transition">
+          <div style="position:absolute;bottom:10px;font-size:0.65rem;font-weight:700;color:#2e7d32">TRANSITION ZONE</div>
+        </div>
+        <div class="ring ring-buffer">
+          <div style="position:absolute;top:10px;font-size:0.68rem;font-weight:700;">BUFFER ZONE</div>
+        </div>
+        <div class="ring ring-core">CORE<br>AREA</div>
+      </div>
+      <div class="zone-legend">
+        <div class="zone-item">
+          <div class="zone-dot" style="background:#1a3a2a;"></div>
+          <div>
+            <h5>Core Area</h5>
+            <p>Undisturbed and legally protected ecosystem. No human habitation. Full legal protection.</p>
+          </div>
+        </div>
+        <div class="zone-item">
+          <div class="zone-dot" style="background:#66bb6a;"></div>
+          <div>
+            <h5>Buffer Zone</h5>
+            <p>Surrounds the core area. Dedicated to research and educational activities.</p>
+          </div>
+        </div>
+        <div class="zone-item">
+          <div class="zone-dot" style="background:#c8e6c9;"></div>
+          <div>
+            <h5>Transition Zone</h5>
+            <p>Outermost part. Habitation, agriculture, forestry, and recreational activities occur in harmony with conservation goals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Protected Area Categories -->
+  <div class="pa-cards">
+    <div class="pa-card pa-national">
+      <div class="pa-top">
+        <h4>National Park</h4>
+      </div>
+      <div class="pa-body">
+        Conserves species of a habitat with minimal or very low intensity of human activity. No human habitation allowed. All private rights are non-existent. Grazing of domestic animals is prohibited.
+        <div class="pa-stat">🇮🇳 90 National Parks in India</div>
+      </div>
+    </div>
+    <div class="pa-card pa-wildlife">
+      <div class="pa-top">
+        <h4>Wildlife Sanctuary</h4>
+      </div>
+      <div class="pa-body">
+        Dedicated to protecting wildlife species only. Boundary is determined by state legislation. Hunting without permit is prohibited. Grazing and cattle movement are regulated. Comprises core, buffer, and restoration zones.
+        <div class="pa-stat">🇮🇳 492 Wildlife Sanctuaries in India</div>
+      </div>
+    </div>
+    <div class="pa-card pa-biosphere">
+      <div class="pa-top">
+        <h4>Biosphere Reserve</h4>
+      </div>
+      <div class="pa-body">
+        Conservation of natural resources and improvement of relationship between humans and environment. Contains both natural and human-influenced ecosystems with substantial human settlement.
+        <div class="pa-stat">🇮🇳 13 Biosphere Reserves in India</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gene Banks & Methods -->
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;color:var(--forest);margin:2rem 0 1rem;">Ex Situ Methods in Detail</h3>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;">
+    <div style="padding:1.5rem;background:var(--mist);border-radius:12px;border-left:4px solid var(--earth);">
+      <h4 style="color:var(--earth);font-size:0.95rem;margin-bottom:0.5rem;">🏦 Gene Banks (Germplasm Banks)</h4>
+      <p style="font-size:0.85rem;color:var(--fog);line-height:1.6;">Seeds, pollen grains, and vegetative parts preserved under viable (frozen) conditions. Seeds of maize and barley can survive thousands of years. Millets, oil seeds, vegetables, pulses, and narcotics can be stored in liquid nitrogen.</p>
+    </div>
+    <div style="padding:1.5rem;background:var(--mist);border-radius:12px;border-left:4px solid var(--sky);">
+      <h4 style="color:var(--sky);font-size:0.95rem;margin-bottom:0.5rem;">🌿 Botanical Gardens</h4>
+      <p style="font-size:0.85rem;color:var(--fog);line-height:1.6;">Used for conservation of rare and endangered plant species, for study and research of specific plant characters, and for disseminating scientific information to promote sustainable development.</p>
+    </div>
+    <div style="padding:1.5rem;background:var(--mist);border-radius:12px;border-left:4px solid var(--leaf);">
+      <h4 style="color:var(--leaf);font-size:0.95rem;margin-bottom:0.5rem;">🔬 Tissue Culture Technique</h4>
+      <p style="font-size:0.85rem;color:var(--fog);line-height:1.6;">Also called micro-propagation. A very small piece of shoot apex, leaf section, or even an individual cell is cut and placed in a sterile culture containing special culture medium. Used for rapid multiplication of plants — especially useful for sugarcane and others with very few seeds.</p>
+    </div>
+    <div style="padding:1.5rem;background:var(--mist);border-radius:12px;border-left:4px solid var(--forest);">
+      <h4 style="color:var(--forest);font-size:0.95rem;margin-bottom:0.5rem;">🧬 DNA Technology</h4>
+      <p style="font-size:0.85rem;color:var(--fog);line-height:1.6;">Enables whole DNA of a plant or animal cell to be conserved. Through recombinant DNA, genes important for conservation can be isolated and used in other species. Provides an innovative approach for biodiversity conservation.</p>
+    </div>
+  </div>
+
+  <!-- Central Acts -->
+  <div class="case-study" style="margin-top:2rem;">
+    <div class="case-study-label">🏛️ Central Acts for Conservation</div>
+    <h4>Key Legislation in India</h4>
+    <p>Major Acts: Forest Act 1927 · Wildlife (Protection) Act 1972 · Forest (Conservation) Act 1980 · Environment (Protection) Act 1986. Key policies: National Forest Policy (1988) · National Conservation Strategy · National Agricultural Policy · National Fisheries Policy · National Policy and Action Strategy on Biodiversity · National Wildlife Action Plan.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MEGADIVERSITY -->
+<div class="section-alt" id="megadiversity">
+  <div class="section-inner">
+    <div class="section-label">Section 4.8</div>
+    <h2 class="section-title">India: A Megadiversity Nation</h2>
+    <p class="section-subtitle">India is one of 17 megadiversity countries identified by the World Conservation Monitoring Centre. It is rich in biological diversity and possesses all natural resources required for the sustenance of every kind of living organism.</p>
+
+    <div class="mega-stat-bar">
+      <div class="mega-stat">
+        <div class="mega-num">17</div>
+        <div class="mega-label">Megadiversity Countries in the World</div>
+      </div>
+      <div class="mega-stat">
+        <div class="mega-num">167</div>
+        <div class="mega-label">Important Cultivated Plant Species native to India</div>
+      </div>
+      <div class="mega-stat">
+        <div class="mega-num">114</div>
+        <div class="mega-label">Breeds of Domesticated Animals</div>
+      </div>
+      <div class="mega-stat">
+        <div class="mega-num">9</div>
+        <div class="mega-label">Phytogeographical Regions of India</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2rem;">
+      <div style="padding:2rem;background:var(--white);border-radius:16px;border:1px solid rgba(0,0,0,0.06);">
+        <h4 style="font-family:'Fraunces',serif;font-size:1.1rem;color:var(--forest);margin-bottom:0.75rem;">🗺️ Geographical Diversity</h4>
+        <p style="font-size:0.88rem;color:var(--fog);line-height:1.6;">India is a vast geographic region. It comprises the Himalayan region, Ganga plains, Thar Desert, and Deccan plateau. India represents almost all kinds of geographic variations found elsewhere in the world.</p>
+      </div>
+      <div style="padding:2rem;background:var(--white);border-radius:16px;border:1px solid rgba(0,0,0,0.06);">
+        <h4 style="font-family:'Fraunces',serif;font-size:1.1rem;color:var(--forest);margin-bottom:0.75rem;">🌤️ Climatic Diversity</h4>
+        <p style="font-size:0.88rem;color:var(--fog);line-height:1.6;">Climatic conditions range from cold temperate and frost-covered Himalayan regions to low rainfall dry tropics in the north-west. Divided into four climatic regions: wet zone (>200cm), intermediate (100–200cm), dry (50–100cm), and arid zone (&lt;50cm).</p>
+      </div>
+      <div style="padding:2rem;background:var(--white);border-radius:16px;border:1px solid rgba(0,0,0,0.06);">
+        <h4 style="font-family:'Fraunces',serif;font-size:1.1rem;color:var(--forest);margin-bottom:0.75rem;">🦋 Biological Diversity</h4>
+        <p style="font-size:0.88rem;color:var(--fog);line-height:1.6;">Divided into nine phytogeographical regions. One of the 12 primary centres of origin of cultivated plants and domesticated animals. Home to 167 important plant species and 114 breeds of domesticated animals.</p>
+      </div>
+      <div style="padding:2rem;background:var(--white);border-radius:16px;border:1px solid rgba(0,0,0,0.06);">
+        <h4 style="font-family:'Fraunces',serif;font-size:1.1rem;color:var(--forest);margin-bottom:0.75rem;">🏔️ Habitat Diversity</h4>
+        <p style="font-size:0.88rem;color:var(--fog);line-height:1.6;">India represents almost all types of habitats of the world — high mountain ranges, hills, plateau, plains, deserts, etc. Freshwater and saline lakes, reservoirs, ponds, rivers, and streams provide diversity of habitats for aquatic plants and animals.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BIOGEOGRAPHY -->
+<section class="section" id="biogeography">
+  <div class="section-label">Section 4.7</div>
+  <h2 class="section-title">Biogeographical Classification of India</h2>
+  <p class="section-subtitle">India has been divided into nine phytogeographical regions based on geographical features.</p>
+
+  <div class="regions-grid">
+    <div class="region-card">
+      <strong>(i) Western Himalayas</strong>
+      <span>Extends from central Kumaon to north-west Kashmir. Further classified into temperate, subtropical, and alpine regions. Vegetation: fir, birch, deodar, mango, sheesham, pine.</span>
+    </div>
+    <div class="region-card">
+      <strong>(ii) Eastern Himalayas</strong>
+      <span>Regions of Sikkim extending to highlands of Assam. Warmer with higher rainfall. Known as the <em>wetland of Himalayas</em>. Vegetation: fir, pine, sal, deodar, oak, birch.</span>
+    </div>
+    <div class="region-card">
+      <strong>(iii) Western Deserts</strong>
+      <span>Covers Haryana, Punjab, Rajasthan, and Gujarat. Annual rainfall &lt;70 cm. High temperature. Xerophytic plants dominate: babool, kikar, khejri, amla, rohida.</span>
+    </div>
+    <div class="region-card">
+      <strong>(iv) Gangetic Plains</strong>
+      <span>Includes Ganga valley, parts of UP, Bihar, and Bengal. Highly fertile alluvial soil provides favourable conditions. Key trees: mango, teak, sal, mulberry, figs.</span>
+    </div>
+    <div class="region-card">
+      <strong>(v) Central India</strong>
+      <span>Parts of Madhya Pradesh, Orissa, and Northern Gujarat between plains of Ganges and Southern plateau. Heavy rainfall. Dominant species: sal, sagwaan, bidi, mahua, mango.</span>
+    </div>
+    <div class="region-card">
+      <strong>(vi) Western Coast (Malabar Coast)</strong>
+      <span>Southern Gujarat to Kanyakumari. Very high rainfall, thick and dense trees: mahogany, cinchona, rubber, coconut, banana.</span>
+    </div>
+    <div class="region-card">
+      <strong>(vii) Deccan Plateau</strong>
+      <span>Entire peninsular India except Western Ghats. Includes parts of Andhra Pradesh, Tamil Nadu, and Karnataka. Dry and rocky terrain.</span>
+    </div>
+    <div class="region-card">
+      <strong>(viii) North-East India</strong>
+      <span>Comprises valleys of Brahmaputra. Receives the heaviest rainfall. Dense evergreen forests are common in this area.</span>
+    </div>
+    <div class="region-card">
+      <strong>(ix) Andaman & Nicobar Islands</strong>
+      <span>Several small and large islands near the equator. Wide range of forests. Vegetation ranges from coastal vegetation to evergreen forests.</span>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;color:var(--forest);margin:2rem 0 1rem;">Zoogeographical Regions of India</h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+    <div style="padding:1.2rem;background:var(--mist);border-radius:10px;font-size:0.85rem;">
+      <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🏔️ Himalayan Region</strong>
+      <span style="color:var(--fog);">Yak, gufal, snow leopard, kasturi deer</span>
+    </div>
+    <div style="padding:1.2rem;background:var(--mist);border-radius:10px;font-size:0.85rem;">
+      <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🌴 Malabar Region</strong>
+      <span style="color:var(--fog);">Various monkeys, deer, etc. Moderate climate.</span>
+    </div>
+    <div style="padding:1.2rem;background:var(--mist);border-radius:10px;font-size:0.85rem;">
+      <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🐦 Nilgiri Region</strong>
+      <span style="color:var(--fog);">Richest in birds. Elephants found here. Fewer lions.</span>
+    </div>
+    <div style="padding:1.2rem;background:var(--mist);border-radius:10px;font-size:0.85rem;">
+      <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🐘 Northern Plains</strong>
+      <span style="color:var(--fog);">Elephants, leopards, neelgai, jackals, deer</span>
+    </div>
+    <div style="padding:1.2rem;background:var(--mist);border-radius:10px;font-size:0.85rem;">
+      <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🦌 Desert Lands</strong>
+      <span style="color:var(--fog);">Deer, cheetahs, sambars, neelgai, snakes, lizards</span>
+    </div>
+    <div style="padding:1.2rem;background:var(--mist);border-radius:10px;font-size:0.85rem;">
+      <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🐍 Deccan Plateau Region</strong>
+      <span style="color:var(--fog);">Elephants, lions, tigers, monkeys, deer, snakes</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GLOBAL LEVEL -->
+<div class="section-alt" id="global">
+  <div class="section-inner">
+    <div class="section-label">Section 4.9</div>
+    <h2 class="section-title">Biodiversity at Global Level</h2>
+    <p class="section-subtitle">At the global level, there are about 82 million known species of living organisms. The expected total is about 50 million. More diversity occurs in tropics than elsewhere.</p>
+
+    <div class="veg-belts">
+      <div class="veg-belt belt-arctic">
+        <div class="belt-name">❄️ Arctic Zone</div>
+        <div class="belt-desc">Near the poles. Algae, annual flowering plants, mosses, lichens. Ground vegetation: pteridophytes, orchids, insectivorous plants.</div>
+      </div>
+      <div class="veg-belt belt-ntemperate">
+        <div class="belt-name">🌲 Northern Temperate Zone</div>
+        <div class="belt-desc">Parts of USA and Canada. Gymnospermous tall trees, oaks, maples, chestnuts. At high altitude, grassy vegetation with herbaceous plants.</div>
+      </div>
+      <div class="veg-belt belt-stemperate">
+        <div class="belt-name">🌿 Southern Temperate Zone</div>
+        <div class="belt-desc">Southern Africa, Australia, New Zealand. Ferns and gymnosperms. New Zealand is richest in bryophytes. Palms, nuts, Acacia and Casurina in Australia.</div>
+      </div>
+      <div class="veg-belt belt-tropical">
+        <div class="belt-name">🌺 Tropical Zone</div>
+        <div class="belt-desc">Tropical Africa, Asia, Mexico, South America. Xerophytes in dry areas. On mountain peaks, grasses. In Mexico: orange, banana, mango are common trees.</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;color:var(--forest);margin:2rem 0 1rem;">Five Geographical Regions (Based on Fauna)</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+      <div style="padding:1.2rem;background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem;">
+        <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🐯 Oriental Region</strong>
+        <span style="color:var(--fog);">Tiger, neelgai, rabbit, flying fox, gharial, peacocks. Characterized by plain forests, elevated areas. Rainfall sufficient in most parts.</span>
+      </div>
+      <div style="padding:1.2rem;background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem;">
+        <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🦘 Australian Region</strong>
+        <span style="color:var(--fog);">Deserts and dry plains. Kangaroo, parrots, scale-footed lizards, honey eaters, crowned pigeons. Freshwater ecosystems are rare.</span>
+      </div>
+      <div style="padding:1.2rem;background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem;">
+        <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🦅 Neotropical Region</strong>
+        <span style="color:var(--fog);">South America, Central America, West Indies. American monkeys, dogs, deer, cattle, squirrels, electric eel, monkey birds, humming birds.</span>
+      </div>
+      <div style="padding:1.2rem;background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem;">
+        <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🦆 Nearctic Region</strong>
+        <span style="color:var(--fog);">Greenland and North America except Mexico. Coniferous forests, tundra, islands, lakes, seas. Flying squirrels, vultures, kingfishers, ducks, flamingo, alligators, rattle snake, cranes.</span>
+      </div>
+      <div style="padding:1.2rem;background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem;">
+        <strong style="color:var(--forest);display:block;margin-bottom:0.4rem;">🦎 Palearctic Region</strong>
+        <span style="color:var(--fog);">Largest geographical region. Includes Europe, northern Africa, and Asia. Fauna represented by 135 families of terrestrial vertebrates.</span>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;color:var(--forest);margin:2rem 0 1rem;">Biodiversity at National & Local Level</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;border-left:4px solid var(--leaf);">
+        <h4 style="color:var(--forest);font-size:0.95rem;margin-bottom:0.5rem;">🇮🇳 National Level</h4>
+        <p style="font-size:0.85rem;color:var(--fog);line-height:1.6;">India has a rich biodiversity owing to wide variety of physical and climatic factors. Biodiversity is peculiar and highly categorized. Most is localized to Western Ghats, north-western Himalayas, and Andaman & Nicobar Islands. India is a 'Vavilov Centre' — an original centre for domestication of crop plants.</p>
+      </div>
+      <div style="padding:1.5rem;background:var(--mist);border-radius:12px;border-left:4px solid var(--sky);">
+        <h4 style="color:var(--forest);font-size:0.95rem;margin-bottom:0.5rem;">📍 Local Level</h4>
+        <p style="font-size:0.85rem;color:var(--fog);line-height:1.6;">The variety of species found at a given place constitutes the biodiversity at local level. The reason for local biodiversity is the local changes in climatic, geomorphic, and ecological factors. In Rajasthan: Desert (low rainfall, high temperature, sand dunes) · Mountain/Hilly region (Aravalli, tiger, panther) · Plains (eastern Aravalli).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<section class="section">
+  <div class="summary-box">
+    <h3>📋 Chapter Summary</h3>
+    <div class="summary-points">
+      <div class="summary-point"><div class="sp-dot"></div><div>Everything present around us, whether visible or invisible, is an integral part of the vast biodiversity of the biosphere. It is found at three levels: genetic, species, and ecosystem diversity.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>Biodiversity is the basis of human survival. Man is dependent on plants and animals for food, medicine, clothing, and many other aspects.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>Scientists have identified 25 biodiversity hotspots worldwide — biologically rich areas under greatest threat. Two are found in India: Western Ghats and North-East Himalaya.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>Plant or animal species on the verge of extinction are called <strong>endangered species</strong>. The Red Data Book lists about 25,000 endangered species all over the world.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>Species confined to a particular region are called <strong>endemic species</strong>. India is home to a number of endemic species — about 4,900 flowering plants and 62% of known amphibians.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>Major threats to biodiversity: deforestation, poaching, urbanization, environmental pollution, mining, climate change, invasive species, and weak legal systems.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>Two major conservation approaches: <em>in situ</em> (national parks, wildlife sanctuaries, biosphere reserves) and <em>ex situ</em> (gene banks, zoos, botanical gardens, tissue culture, DNA technology).</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>India is considered a biodiversity-rich nation and a megadiversity country — one of only 17 in the world. It has been divided into nine phytogeographical regions based on geographical features.</div></div>
+      <div class="summary-point"><div class="sp-dot"></div><div>There are 17 megadiversity countries all over the world. India is one of them — full of biodiversity having all natural resources for all kinds of living organisms, and also extremely rich in cultural, geographical, and climatic diversity.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Chapter 4 · <strong>Biodiversity</strong> · Textbook of Environmental Studies</p>
+  <p style="margin-top:0.5rem;">Notes prepared by <strong>ScholarNest</strong> · For educational purposes only</p>
+</footer>
+
+<script>
+  // Sticky nav visibility
+  const stickyNav = document.getElementById('stickyNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.8) {
+      stickyNav.classList.add('visible');
+    } else {
+      stickyNav.classList.remove('visible');
+    }
+  });
+</script>
+</body>
+</html>
